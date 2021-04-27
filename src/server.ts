@@ -55,7 +55,7 @@ export function makeApp(client: MongoClient): core.Express {
     oauthClient
       .getTokensFromAuthorizationCode(`${request.query.code}`)
       .then((result) => {
-        console.log(`${result}`);
+        console.log(result);
         response.json(result);
       });
   });
