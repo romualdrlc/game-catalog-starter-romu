@@ -45,7 +45,7 @@ export function makeApp(client: MongoClient): core.Express {
   app.set("view engine", "njk");
 
   app.get("/", (request: Request, response: Response) => {
-    const url = `http://localhost:3000/oauth/authorize?client_id=${oauthClientConstructorProps.clientID}&redirect_uri=${oauthClientConstructorProps.redirectURI}&response_type=code&scope=${oauthClientConstructorProps.scopes}`;
+    const url = `https://localhost:3000/oauth/authorize?client_id=${oauthClientConstructorProps.clientID}&redirect_uri=${oauthClientConstructorProps.redirectURI}&response_type=code&scope=${oauthClientConstructorProps.scopes}`;
     response.render("index", {
       connectLoginURL: url,
     });
@@ -56,7 +56,9 @@ export function makeApp(client: MongoClient): core.Express {
       .getTokensFromAuthorizationCode(`${request.query.code}`)
       .then((result) => {
         console.log(result);
-        response.json(result);
+        oauthClient.verifyJWT(result.access_token, "RS256").then((payload) => {
+          response.json(payload);
+        });
       });
   });
 
