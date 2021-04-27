@@ -45,22 +45,29 @@ export function makeApp(db: Db): core.Express {
 
   app.set("view engine", "njk");
 
-  app.get("/", (request: Request, response: Response) => {
-    const url = `https://localhost:3000/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=${scope}`;
+  app.get("/", sessionParser, (request: Request, response: Response) => {
+    const url = `https://localhost:3000/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=code&scope=${scopes}`;
     response.render("index", {
       connectLoginURL: url,
     });
   });
 
-  // app.get(
-  //   "/oauth/callback",
-  //   sessionParser,
-  //   (request: Request, response: Response) => {
-  //     // get back an Access Token from an OAuth2 Authorization Code
-
-  //     response.redirect("/logged-in-part-of-your-app");
-  //   }
-  // );
+  app.get(
+    "/oauth/callback",
+    sessionParser,
+    (request: Request, response: Response) => {
+      oauthClient
+        .getTokensFromAuthorizationCode(`${request.query.code}`)
+        .then((result) => {
+          console.log(result);
+          oauthClient
+            .verifyJWT(result.access_token, "RS256")
+            .then((payload) => {
+              response.json(payload);
+            });
+        });
+    }
+  );
 
   return app;
 }
