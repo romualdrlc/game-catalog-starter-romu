@@ -13,7 +13,7 @@ const oauthClientConstructorProps: OAuth2ClientConstructor = {
     "https://fewlines.connect.prod.fewlines.tech/.well-known/openid-configuration",
   clientID: `${process.env.CONNECT_CLIENT_ID}`,
   clientSecret: `${process.env.CONNECT_CLIENT_SECRET}`,
-  redirectURI: "https://localhost:3000/oauth/callback",
+  redirectURI: "http://localhost:3000/oauth/callback",
   audience: "wdb2g3",
   scopes: ["openid", "email"],
 };
@@ -44,21 +44,31 @@ export function makeApp(client: MongoClient): core.Express {
 
   app.set("view engine", "njk");
 
-  app.get("/", (request: Request, response: Response) => {
-    const url = `http://localhost:3000/oauth/authorize?client_id=${oauthClientConstructorProps.clientID}&redirect_uri=${oauthClientConstructorProps.redirectURI}&response_type=code&scope=${oauthClientConstructorProps.scopes}`;
+  app.get("/", sessionParser, (request: Request, response: Response) => {
+    const url = `https://fewlines.connect.prod.fewlines.tech/oauth/authorize?client_id=${process.env.CONNECT_CLIENT_ID}&redirect_uri=http://localhost:3000/oauth/callback&response_type=code&scope=email%20openid`;
     response.render("index", {
       connectLoginURL: url,
     });
   });
 
-  app.get("/oauth/callback", (request: Request, response: Response) => {
-    oauthClient
-      .getTokensFromAuthorizationCode(`${request.query.code}`)
-      .then((result) => {
-        console.log(result);
-        response.json(result);
-      });
+  app.get("/oauth/callback", async (request: Request, response: Response) => {
+    const oauthurl = await oauthClient.getAuthorizationURL();
+    console.log(oauthurl);
+    const tokens = await oauthClient.getTokensFromAuthorizationCode(
+      `${request.query.code}`
+    );
+    response.json(tokens);
+    console.log(tokens);
   });
 
   return app;
 }
+
+// oauthClient
+// .getTokensFromAuthorizationCode(`${request.query.code}`)
+// .then((result) => {
+//   console.log(result);
+//   oauthClient.verifyJWT(result.access_token, "RS256").then((payload) => {
+//     response.json(payload);
+//   });
+// });
