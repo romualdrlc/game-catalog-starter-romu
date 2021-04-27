@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import * as core from "express-serve-static-core";
-import { Db } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 import nunjucks from "nunjucks";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -19,23 +19,23 @@ const oauthClientConstructorProps: OAuth2ClientConstructor = {
 };
 const oauthClient = new OAuth2Client(oauthClientConstructorProps);
 
-export function makeApp(db: Db): core.Express {
+export function makeApp(client: MongoClient): core.Express {
   const app = express();
 
-  // const sessionParser = session({
-  //   secret:
-  //     "fdiosfoihfwihfiohwipuiiufbfiuhfisheiushfpihsfpihfifhihfpuhdfshfhfpihwepihpsdhiodghfoihpfhsfphsdpifh",
-  //   name: "sessionId",
-  //   resave: false,
-  //   saveUninitialized: true,
-  //   store: MongoStore.create({
-  //     client: client,
-  //   }),
-  //   cookie: {
-  //     secure: process.env.NODE_ENV === "production",
-  //     expires: new Date(Date.now() + 3600000),
-  //   },
-  // });
+  const sessionParser = session({
+    secret:
+      "fdiosfoihfwihfiohwipuiiufbfiuhfisheiushfpihsfpihfifhihfpuhdfshfhfpihwepihpsdhiodghfoihpfhsfphsdpifh",
+    name: "sessionId",
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      client: client,
+    }),
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      expires: new Date(Date.now() + 3600000),
+    },
+  });
 
   nunjucks.configure("views", {
     autoescape: true,
@@ -45,14 +45,19 @@ export function makeApp(db: Db): core.Express {
   app.set("view engine", "njk");
 
   app.get("/", (request: Request, response: Response) => {
-    const url = `https://localhost:3000/oauth/authorize?client_id=${oauthClientConstructorProps.clientID}&redirect_uri=${oauthClientConstructorProps.redirectURI}&response_type=code&scope=${oauthClientConstructorProps.scopes}`;
+    const url = `http://localhost:3000/oauth/authorize?client_id=${oauthClientConstructorProps.clientID}&redirect_uri=${oauthClientConstructorProps.redirectURI}&response_type=code&scope=${oauthClientConstructorProps.scopes}`;
     response.render("index", {
       connectLoginURL: url,
     });
   });
 
   app.get("/oauth/callback", (request: Request, response: Response) => {
-    response.json(oauthClient);
+    oauthClient
+      .getTokensFromAuthorizationCode(`${request.query.code}`)
+      .then((result) => {
+        console.log(`${result}`);
+        response.json(result);
+      });
   });
 
   return app;
