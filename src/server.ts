@@ -6,6 +6,8 @@ import nunjucks from "nunjucks";
 export function makeApp(db: Db): core.Express {
   const app = express();
 
+  app.use("/assets", express.static("assets"));
+
   nunjucks.configure("views", {
     autoescape: true,
     express: app,
@@ -14,7 +16,11 @@ export function makeApp(db: Db): core.Express {
   app.set("view engine", "njk");
 
   app.get("/", (request: Request, response: Response) => {
-    response.render("index")
+    response.render("/");
+  });
+
+  app.get("/home", (request: Request, response: Response) => {
+    response.render("home");
   });
 
   return app;
