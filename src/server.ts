@@ -14,7 +14,7 @@ const clientWantsJson = (request: express.Request): boolean =>
 
 export function makeApp(client: MongoClient): core.Express {
   const app = express();
-  const db = client.db("gameCatalog");
+  const db = client.db();
 
   const gameModel = new GameModel(db.collection("gameCatalog"));
 
@@ -54,15 +54,19 @@ export function makeApp(client: MongoClient): core.Express {
   app.set("view engine", "njk");
 
   app.get("/", sessionParser, async (request: Request, response: Response) => {
-    const url = await oauthClient.getAuthorizationURL();
-    let loggedIn = false;
-    if (request.session && (request.session as any)["accessToken"]) {
-      loggedIn = true;
+    try {
+      const url = await oauthClient.getAuthorizationURL();
+      let loggedIn = false;
+      if (request.session && (request.session as any)["accessToken"]) {
+        loggedIn = true;
+      }
+      response.render("home", {
+        connectLoginURL: url,
+        loggedIn: loggedIn,
+      });
+    } catch (error) {
+      console.log(error);
     }
-    response.render("home", {
-      connectLoginURL: url,
-      loggedIn: loggedIn,
-    });
   });
 
   app.get("/games", (request, response) => {
