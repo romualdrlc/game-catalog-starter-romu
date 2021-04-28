@@ -75,6 +75,40 @@ export function makeApp(client: MongoClient): core.Express {
     });
   });
 
+  app.get("/games/:game_slug", (request, response) => {
+    gameModel.findBySlug(request.params.game_slug).then((game) => {
+      if (!game) {
+        response.status(404).end();
+      } else if (clientWantsJson(request)) {
+        response.json(game);
+      } else {
+        response.render("gameslug", { game });
+      }
+    });
+  });
+
+  app.get("/platforms", (request, response) => {
+    gameModel.getPlatforms().then((platforms) => {
+      if (clientWantsJson(request)) {
+        response.json(platforms);
+      } else {
+        response.render("platform", { platforms });
+      }
+    });
+  });
+
+  app.get("/platforms/:platform_slug", (request, response) => {
+    gameModel
+      .findByPlatform(request.params.platform_slug)
+      .then((gamesForPlatform) => {
+        if (clientWantsJson(request)) {
+          response.json(gamesForPlatform);
+        } else {
+          response.render("platformslug", { gamesForPlatform });
+        }
+      });
+  });
+
   app.get(
     "/oauth/callback",
     sessionParser,
