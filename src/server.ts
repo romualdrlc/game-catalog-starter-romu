@@ -16,7 +16,7 @@ export function makeApp(client: MongoClient): core.Express {
   const app = express();
   const db = client.db();
 
-  const gameModel = new GameModel(db.collection("gameCatalog"));
+  const gameModel = new GameModel(db.collection("games"));
 
   const oauthClientConstructorProps: OAuth2ClientConstructor = {
     openIDConfigurationURL:
@@ -86,7 +86,7 @@ export function makeApp(client: MongoClient): core.Express {
       } else if (clientWantsJson(request)) {
         response.json(game);
       } else {
-        response.render("gameslug", { game });
+        response.render("game-slug", { game });
       }
     });
   });
@@ -96,7 +96,7 @@ export function makeApp(client: MongoClient): core.Express {
       if (clientWantsJson(request)) {
         response.json(platforms);
       } else {
-        response.render("platform", { platforms });
+        response.render("platforms", { platforms });
       }
     });
   });
@@ -108,7 +108,7 @@ export function makeApp(client: MongoClient): core.Express {
         if (clientWantsJson(request)) {
           response.json(gamesForPlatform);
         } else {
-          response.render("platformslug", { gamesForPlatform });
+          response.render("platform-lug", { gamesForPlatform });
         }
       });
   });

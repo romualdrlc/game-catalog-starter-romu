@@ -19,6 +19,7 @@
       integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
       crossorigin="anonymous"
     />
+   
 
     <link rel="stylesheet" href="/assets/styles/main.css" />
     <title>VideoFennGames.com</title>
@@ -159,9 +160,11 @@
     <!-- Links -->
   </nav>
   <body>
+    {% block content %}{% endblock %}
+    
     <!-- Optional JavaScript; choose one of the two! -->
 
-    {% block content %}{% endblock %}
+    
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
 
@@ -181,5 +184,7 @@
       integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
       crossorigin="anonymous"
     ></script>
+
+   
   </body>
 </html>
