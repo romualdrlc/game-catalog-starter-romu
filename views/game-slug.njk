@@ -1,0 +1,29 @@
+{% extends "layout.njk" %} {% block content %}
+
+<h1 class="title-page">
+  <p class="text-center">Detail of {{ game.name}}</p>
+</h1>
+
+<div class="card" style="width: 500px">
+  <div class="row no-gutters">
+    <div class="col-sm-5">
+      <img class="card-img" src="{{ game.cover_url }}" />
+    </div>
+    <div class="col-sm-7">
+      <div class="card-body">
+        <h5 class="card-title">{{ game.name}}</h5>
+        <p class="card-text">
+          Price : {{ game.price }} €
+        </p>
+        <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart pr-2">Add to cart</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+    <p class="card-text">{{ game.summary }}</p>
+  </div>
+<!-- rajout de screens  -->
+<!-- Ne pas oublier le lien/ajout du bouton add to cart -->
+{% endblock %}
+

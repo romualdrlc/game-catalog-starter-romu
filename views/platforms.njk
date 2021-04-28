@@ -1,0 +1,17 @@
+{% extends "layout.njk" %} {% block content %}
+
+<h1 class="title-page">
+  <p class="text-center">list of platforms</p>
+</h1>
+
+{% for platform in platforms %}
+<div class="card" style="width: 18rem">
+  <img src="{{ platform.cover }}" class="card-img-top" />
+  <div class="card-body">
+    <h5 class="card-title text-center">{{ platform.name }}</h5>
+    <a href="/platforms/{{ platform.slug }}" class="btn btn-primary"
+      >View all games</a
+    >
+  </div>
+</div>
+{ % endfor % } {% endblock %}

@@ -74,7 +74,7 @@ export function makeApp(client: MongoClient): core.Express {
       if (clientWantsJson(request)) {
         response.json(games);
       } else {
-        response.render("home", { games });
+        response.render("games", { games });
       }
     });
   });

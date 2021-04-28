@@ -1,0 +1,31 @@
+{% extends "layout.njk" %} {% block content %}
+
+<h1 class="title-page">
+  <p class="text-center">list of games</p>
+</h1>
+
+{% for game in games %}
+<div class="card">
+  <div class="view zoom overlay">
+    <img src="{{ game.cover }}" class="card-img-top" />
+  </div>
+
+  <div class="card-body text-center">
+    <h5>{{ game.name }}</h5>
+
+    <h6 class="mb-3">
+      <span class="text-danger mr-1">{{ game.price }}</span>
+    </h6>
+
+    <button type="button" class="btn btn-primary btn-sm mr-1 mb-2">
+      <i class="fas fa-shopping-cart pr-2"></i>Add to cart
+    </button>
+    <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
+      <a href="/games/{{ game.slug }}">Details</a>
+    </button>
+    { % endfor % }
+  </div>
+</div>
+{% endblock %}
+
+<!-- Ne pas oublier le lien/ajout au panier du bouton add to cart -->
