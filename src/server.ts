@@ -7,9 +7,17 @@ import MongoStore from "connect-mongo";
 import OAuth2Client, {
   OAuth2ClientConstructor,
 } from "@fewlines/connect-client";
+import { GameModel } from "./models/game";
+
+const clientWantsJson = (request: express.Request): boolean =>
+  request.get("accept") === "application/json";
 
 export function makeApp(client: MongoClient): core.Express {
   const app = express();
+  const db = client.db("gameCatalog");
+
+  const gameModel = new GameModel(db.collection("gameCatalog"));
+
   const oauthClientConstructorProps: OAuth2ClientConstructor = {
     openIDConfigurationURL:
       "https://fewlines.connect.prod.fewlines.tech/.well-known/openid-configuration",
@@ -51,9 +59,19 @@ export function makeApp(client: MongoClient): core.Express {
     if (request.session && (request.session as any)["accessToken"]) {
       loggedIn = true;
     }
-     response.render("home", {
+    response.render("home", {
       connectLoginURL: url,
       loggedIn: loggedIn,
+    });
+  });
+
+  app.get("/games", (request, response) => {
+    gameModel.getAll().then((games) => {
+      if (clientWantsJson(request)) {
+        response.json(games);
+      } else {
+        response.render("home", { games });
+      }
     });
   });
 

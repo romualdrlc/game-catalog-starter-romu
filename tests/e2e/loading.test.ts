@@ -3,6 +3,7 @@ import { Server } from "http";
 import { MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
 import { makeApp } from "../../src/server";
+import { GameModel } from "../../src/models/game";
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ let mongoClient: MongoClient;
 beforeEach((done) => {
   const options = { useNewUrlParser: true, useUnifiedTopology: true };
   const databaseUrl: string = process.env.MONGO_URL || "";
+  const db = mongoClient.db();
+  const gameModel = new GameModel(db.collection("games"));
 
   MongoClient.connect(databaseUrl, options).then((client) => {
     mongoClient = client;
