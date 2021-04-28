@@ -44,10 +44,10 @@ afterAll(async () => {
   await closeBrowser();
 });
 
-test("Test that we have an index with an h1", async () => {
-  expect.assertions(1);
+// // test("Test that we have an index with an h1", async () => {
+// //   expect.assertions(1);
 
-  await goto("http://localhost:3030");
+// //   await goto("http://localhost:3030");
 
-  expect(await text("changement de titre").exists()).toBe(true);
-});
+// //   expect(await text("changement de titre").exists()).toBe(true);
+// });
