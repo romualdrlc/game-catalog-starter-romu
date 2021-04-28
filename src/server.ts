@@ -24,7 +24,7 @@ export function makeApp(client: MongoClient): core.Express {
     clientID: `${process.env.CONNECT_CLIENT_ID}`,
     clientSecret: `${process.env.CONNECT_CLIENT_SECRET}`,
     redirectURI:
-      "https://game-catalog-added-href-ljt0ly.herokuapp.com//oauth/callback",
+      "https://game-catalog-added-href-ljt0ly.herokuapp.com/oauth/callback",
     audience: "wdb2g3",
     scopes: ["openid", "email"],
   };
