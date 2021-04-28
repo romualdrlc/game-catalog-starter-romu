@@ -21,6 +21,8 @@ export function makeApp(client: MongoClient): core.Express {
   };
   const oauthClient = new OAuth2Client(oauthClientConstructorProps);
 
+  app.use("/assets", express.static("assets"));
+
   const sessionParser = session({
     secret:
       "fdiosfoihfwihfiohwipuiiufbfiuhfisheiushfpihsfpihfifhihfpuhdfshfhfpihwepihpsdhiodghfoihpfhsfphsdpifh",
@@ -49,7 +51,7 @@ export function makeApp(client: MongoClient): core.Express {
     if (request.session && (request.session as any)["accessToken"]) {
       loggedIn = true;
     }
-    response.render("index", {
+     response.render("home", {
       connectLoginURL: url,
       loggedIn: loggedIn,
     });
