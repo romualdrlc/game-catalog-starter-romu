@@ -1,3 +1,11 @@
+/* Ne pas toucher style de police de la page */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron&display=swap");
+
+/* Titres des pages, games, game-slug, platforms, platforms-slug */
+.title-page {
+  font-family: "Orbitron", sans-serif;
+}
+
 .carousel-item {
   height: 32rem;
   background-color: #777;
