@@ -47,7 +47,7 @@ afterAll(async () => {
 test("Test that we have an index with an h1", async () => {
   expect.assertions(1);
 
-  await goto("https://game-catalog-added-href-ljt0ly.herokuapp.com/");
+  await goto("http://localhost:3030");
 
   expect(await text("changement de titre").exists()).toBe(true);
 });
