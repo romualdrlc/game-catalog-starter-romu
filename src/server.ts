@@ -16,7 +16,7 @@ export function makeApp(client: MongoClient): core.Express {
   const app = express();
   const db = client.db();
 
-  const gameModel = new GameModel(db.collection("gameCatalog"));
+  const gameModel = new GameModel(db.collection("games"));
 
   const oauthClientConstructorProps: OAuth2ClientConstructor = {
     openIDConfigurationURL:
