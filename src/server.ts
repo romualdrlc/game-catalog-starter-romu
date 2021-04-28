@@ -22,6 +22,8 @@ const oauthClient = new OAuth2Client(oauthClientConstructorProps);
 export function makeApp(client: MongoClient): core.Express {
   const app = express();
 
+  app.use("/assets", express.static("assets"));
+
   const sessionParser = session({
     secret:
       "fdiosfoihfwihfiohwipuiiufbfiuhfisheiushfpihsfpihfifhihfpuhdfshfhfpihwepihpsdhiodghfoihpfhsfphsdpifh",
@@ -44,6 +46,10 @@ export function makeApp(client: MongoClient): core.Express {
 
   app.set("view engine", "njk");
 
+  app.get("/home", (request: Request, response: Response) => {
+    response.render("home");
+  })
+  
   app.get("/", sessionParser, (request: Request, response: Response) => {
     const url = `https://fewlines.connect.prod.fewlines.tech/oauth/authorize?client_id=${process.env.CONNECT_CLIENT_ID}&redirect_uri=http://localhost:3000/oauth/callback&response_type=code&scope=email%20openid`;
     response.render("index", {
