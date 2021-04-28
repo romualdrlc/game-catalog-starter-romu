@@ -7,9 +7,17 @@ import MongoStore from "connect-mongo";
 import OAuth2Client, {
   OAuth2ClientConstructor,
 } from "@fewlines/connect-client";
+import { GameModel } from "./models/game";
+
+const clientWantsJson = (request: express.Request): boolean =>
+  request.get("accept") === "application/json";
 
 export function makeApp(client: MongoClient): core.Express {
   const app = express();
+  const db = client.db();
+
+  const gameModel = new GameModel(db.collection("gameCatalog"));
+
   const oauthClientConstructorProps: OAuth2ClientConstructor = {
     openIDConfigurationURL:
       "https://fewlines.connect.prod.fewlines.tech/.well-known/openid-configuration",
@@ -46,15 +54,63 @@ export function makeApp(client: MongoClient): core.Express {
   app.set("view engine", "njk");
 
   app.get("/", sessionParser, async (request: Request, response: Response) => {
-    const url = await oauthClient.getAuthorizationURL();
-    let loggedIn = false;
-    if (request.session && (request.session as any)["accessToken"]) {
-      loggedIn = true;
+    try {
+      const url = await oauthClient.getAuthorizationURL();
+      let loggedIn = false;
+      if (request.session && (request.session as any)["accessToken"]) {
+        loggedIn = true;
+      }
+      response.render("home", {
+        connectLoginURL: url,
+        loggedIn: loggedIn,
+      });
+    } catch (error) {
+      console.log(error);
     }
-     response.render("home", {
-      connectLoginURL: url,
-      loggedIn: loggedIn,
+  });
+
+  app.get("/games", (request, response) => {
+    gameModel.getAll().then((games) => {
+      if (clientWantsJson(request)) {
+        response.json(games);
+      } else {
+        response.render("home", { games });
+      }
     });
+  });
+
+  app.get("/games/:game_slug", (request, response) => {
+    gameModel.findBySlug(request.params.game_slug).then((game) => {
+      if (!game) {
+        response.status(404).end();
+      } else if (clientWantsJson(request)) {
+        response.json(game);
+      } else {
+        response.render("gameslug", { game });
+      }
+    });
+  });
+
+  app.get("/platforms", (request, response) => {
+    gameModel.getPlatforms().then((platforms) => {
+      if (clientWantsJson(request)) {
+        response.json(platforms);
+      } else {
+        response.render("platform", { platforms });
+      }
+    });
+  });
+
+  app.get("/platforms/:platform_slug", (request, response) => {
+    gameModel
+      .findByPlatform(request.params.platform_slug)
+      .then((gamesForPlatform) => {
+        if (clientWantsJson(request)) {
+          response.json(gamesForPlatform);
+        } else {
+          response.render("platformslug", { gamesForPlatform });
+        }
+      });
   });
 
   app.get(
