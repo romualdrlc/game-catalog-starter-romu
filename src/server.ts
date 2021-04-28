@@ -23,7 +23,8 @@ export function makeApp(client: MongoClient): core.Express {
       "https://fewlines.connect.prod.fewlines.tech/.well-known/openid-configuration",
     clientID: `${process.env.CONNECT_CLIENT_ID}`,
     clientSecret: `${process.env.CONNECT_CLIENT_SECRET}`,
-    redirectURI: "http://localhost:3000/oauth/callback",
+    redirectURI:
+      "https://game-catalog-added-href-ljt0ly.herokuapp.com//oauth/callback",
     audience: "wdb2g3",
     scopes: ["openid", "email"],
   };
