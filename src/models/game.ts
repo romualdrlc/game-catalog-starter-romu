@@ -23,7 +23,7 @@ export class GameModel {
     return {
       name: game.name,
       slug: game.slug,
-      cover: game.cover_url,
+      cover: game.cover,
     };
   }
 

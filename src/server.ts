@@ -86,7 +86,7 @@ export function makeApp(client: MongoClient): core.Express {
       } else if (clientWantsJson(request)) {
         response.json(game);
       } else {
-        response.render("gameslug", { game });
+        response.render("game-slug", { game });
       }
     });
   });
@@ -96,7 +96,7 @@ export function makeApp(client: MongoClient): core.Express {
       if (clientWantsJson(request)) {
         response.json(platforms);
       } else {
-        response.render("platform", { platforms });
+        response.render("platforms", { platforms });
       }
     });
   });
@@ -108,7 +108,7 @@ export function makeApp(client: MongoClient): core.Express {
         if (clientWantsJson(request)) {
           response.json(gamesForPlatform);
         } else {
-          response.render("platformslug", { gamesForPlatform });
+          response.render("platform-slug", { gamesForPlatform });
         }
       });
   });
@@ -120,8 +120,8 @@ export function makeApp(client: MongoClient): core.Express {
       oauthClient
         .getTokensFromAuthorizationCode(`${request.query.code}`)
         .then((result) => {
-          oauthClient.verifyJWT(result.access_token, "RS256").then(() => {
-            console.log(result.access_token);
+          oauthClient.verifyJWT(result.access_token, "RS256").then((test) => {
+            console.log(test);
             if (request.session) {
               (request.session as any).accessToken = result.access_token;
             }
