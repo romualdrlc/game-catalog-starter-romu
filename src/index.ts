@@ -1,8 +1,6 @@
 import { makeApp } from "./server";
 import * as dotenv from "dotenv";
 import { initDB } from "./init-database";
-import { GameModel } from "./models/game";
-import { MongoClient } from "mongodb";
 
 dotenv.config();
 

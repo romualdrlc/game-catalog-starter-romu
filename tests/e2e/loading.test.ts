@@ -3,7 +3,6 @@ import { Server } from "http";
 import { MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
 import { makeApp } from "../../src/server";
-import { GameModel } from "../../src/models/game";
 
 dotenv.config();
 

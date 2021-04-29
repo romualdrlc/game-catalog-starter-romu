@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import * as core from "express-serve-static-core";
-import { Db, MongoClient } from "mongodb";
+import { MongoClient } from "mongodb";
 import nunjucks from "nunjucks";
 import session from "express-session";
 import MongoStore from "connect-mongo";
