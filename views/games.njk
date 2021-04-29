@@ -1,30 +1,30 @@
 {% extends "layout.njk" %} {% block content %}
-<div
-  class="img-responsive"
-  style="
-    background-image: url('./assets/images/fondecranlistejeux.jpeg');
-    object-fit: cover;
-  "
-></div>
-<h1><p class="text-center">liste de games</p></h1>
-<div class="container">
-  <div class="row row-cols-4">
-    {% for game in games %}
-    <div class="card" style="width: 18rem">
+<h1><p class="text-center">list games</p></h1>
+<div class="row row-cols-1 row-cols-md-4 g-4">
+  {% for game in games %}
+  <div class="col">
+    <div class="card h-100">
       <img
+        width="100px"
+        height="400px"
         src="{{ game.cover.url }}"
         class="card-img-top"
         alt="Responsive image"
       />
       <div class="card-body">
-        <!-- <h5 class="card-title">{{ game.name }}</h5> -->
-        <p class="card-text"></p>
-        <a href="/games/{{ game.slug }}" class="btn btn-primary"
-          >{{ game.name }}
-        </a>
+        <h3 class="card-title">{{ game.name }}</h3>
+      </div>
+      <div class="card-footer">
+        <button style="font-size: 24px">
+          <i class="fa fa-shopping-cart">Add to car</i>
+        </button>
+        <button type="button" class="btn btn-info">
+          <a href="/games/{{ game.slug }}">Detail </a>
+        </button>
+        <!-- Le chiffre 1 correspond a l'incrementation du panier -->
       </div>
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
 </div>
 {% endblock %}

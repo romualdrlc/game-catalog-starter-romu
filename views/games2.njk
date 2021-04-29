@@ -1,0 +1,35 @@
+{% extends "layout.njk" %} {% block content %}
+
+<h1><p class="text-center">list games</p></h1>
+
+<div class="container">
+  <div class="row row-cols-4">
+    {% for game in games %}
+      <div class="card">
+          <div class="card-header">
+            <img
+            src="{{ game.cover.url }}"
+            class="card-img-top"
+            alt="Responsive image"
+          />
+        </div>
+          <div class="card-body">
+              <h3 class="card-title">{{ game.name }}</h5>
+              <p class="card-text"><small class="text-muted"> {{ game.price }}</small></p>
+          </div>
+          <div class="card-footer">
+            <div class="buttons d-flex flex-row">
+              <div class="cart"><i class="fa fa-shopping-cart"></i></div> <button class="btn btn-success cart-button px-5"><span class="dot">1</span>Add to cart </button>
+              <button type="button" class="btn btn-info"><a href="/games/{{ game.slug }}">Detail
+              </a></button>
+              <!-- Le chiffre 1 correspond a l'incrementation du panier -->
+          </div>
+          </div>
+          
+        </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}
