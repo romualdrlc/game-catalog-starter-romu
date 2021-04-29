@@ -1,29 +1,21 @@
 {% extends "layout.njk" %} {% block content %}
+<div class="bg-image" style="background-image: url('./assets/images/fondlisteunjeu.jpeg'); object-fit: cover">
+  <h1><p class="text-center">Voir les infos du jeu selectionné !!</p></h1>
 
-<h1 class="title-page">
-  <p class="text-center">Detail of {{ game.name}}</p>
-</h1>
-
-<div class="card" style="width: 500px">
-  <div class="row no-gutters">
-    <div class="col-sm-5">
-      <img class="card-img" src="{{ game.cover_url }}" />
-    </div>
-    <div class="col-sm-7">
-      <div class="card-body">
-        <h5 class="card-title">{{ game.name}}</h5>
-        <p class="card-text">
-          Price : {{ game.price }} €
-        </p>
-        <a href="#" class="btn btn-primary"><i class="fas fa-shopping-cart pr-2">Add to cart</a>
+  <div class="card mb-3" style="max-width: 540px">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{ game.cover.url }}" alt="..." />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ game.name }}</h5>
+          <h2> {{ game.price }}</h2>
+          <p class="card-text">{{ game.summary }}</p>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div>
-    <p class="card-text">{{ game.summary }}</p>
-  </div>
-<!-- rajout de screens  -->
-<!-- Ne pas oublier le lien/ajout du bouton add to cart -->
-{% endblock %}
 
+  {% endblock %}
+</div>

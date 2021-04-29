@@ -1,31 +1,30 @@
 {% extends "layout.njk" %} {% block content %}
-
-<h1 class="title-page">
-  <p class="text-center">list of games</p>
-</h1>
-
-{% for game in games %}
-<div class="card">
-  <div class="view zoom overlay">
-    <img src="{{ game.cover }}" class="card-img-top" />
-  </div>
-
-  <div class="card-body text-center">
-    <h5>{{ game.name }}</h5>
-
-    <h6 class="mb-3">
-      <span class="text-danger mr-1">{{ game.price }}</span>
-    </h6>
-
-    <button type="button" class="btn btn-primary btn-sm mr-1 mb-2">
-      <i class="fas fa-shopping-cart pr-2"></i>Add to cart
-    </button>
-    <button type="button" class="btn btn-light btn-sm mr-1 mb-2">
-      <a href="/games/{{ game.slug }}">Details</a>
-    </button>
-    { % endfor % }
+<div
+  class="img-responsive"
+  style="
+    background-image: url('./assets/images/fondecranlistejeux.jpeg');
+    object-fit: cover;
+  "
+></div>
+<h1><p class="text-center">liste de games</p></h1>
+<div class="container">
+  <div class="row row-cols-4">
+    {% for game in games %}
+    <div class="card" style="width: 18rem">
+      <img
+        src="{{ game.cover.url }}"
+        class="card-img-top"
+        alt="Responsive image"
+      />
+      <div class="card-body">
+        <!-- <h5 class="card-title">{{ game.name }}</h5> -->
+        <p class="card-text"></p>
+        <a href="/games/{{ game.slug }}" class="btn btn-primary"
+          >{{ game.name }}
+        </a>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
-
-<!-- Ne pas oublier le lien/ajout au panier du bouton add to cart -->
