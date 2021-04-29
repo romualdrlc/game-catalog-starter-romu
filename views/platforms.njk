@@ -1,17 +1,30 @@
 {% extends "layout.njk" %} {% block content %}
+<div
+  class="img-responsive"
+  style="
+    background-image: url('./assets/images/back.png');
+    height: 100vh;
+    width: 100wh;
+  "
+>
+  <h1><p class="text-center">liste de platformes</p></h1>
 
-<h1 class="title-page">
-  <p class="text-center">list of platforms</p>
-</h1>
-
-{% for platform in platforms %}
-<div class="card" style="width: 18rem">
-  <img src="{{ platform.cover }}" class="card-img-top" />
-  <div class="card-body">
-    <h5 class="card-title text-center">{{ platform.name }}</h5>
-    <a href="/platforms/{{ platform.slug }}" class="btn btn-primary"
-      >View all games</a
-    >
+  <div class="container">
+    <div class="row row-cols-4">
+      {% for platform in platforms %}
+      <div class="card" style="width: 14rem">
+        <img src="{{ platform.cover }}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <!-- <h5 class="card-title">{{ game.name }}</h5> -->
+          <p class="card-text"></p>
+          <a href="/platforms/{{ platform.slug }}" class="btn btn-primary"
+            >{{ platform.name }}
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </div>
-{% endfor %} {% endblock %}
+
+{% endblock %}

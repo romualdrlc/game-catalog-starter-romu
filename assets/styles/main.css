@@ -1,35 +1,78 @@
-/* Ne pas toucher style de police de la page */
-@import url("https://fonts.googleapis.com/css2?family=Orbitron&display=swap");
-
-/* Titres des pages, games, game-slug, platforms, platforms-slug */
-.title-page {
-  font-family: "Orbitron", sans-serif;
+.main-head {
+  grid-area: header;
 }
-
+.content {
+  grid-area: content;
+}
+.main-nav {
+  grid-area: nav;
+}
+.side {
+  grid-area: sidebar;
+}
+.ad {
+  grid-area: ad;
+}
+.main-footer {
+  grid-area: footer;
+}
+.wrapper {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-areas:
+    "header"
+    "nav"
+    "content"
+    "sidebar"
+    "ad"
+    "footer";
+}
+@media (min-width: 500px) {
+  .wrapper {
+    grid-template-columns: 1fr 3fr;
+    grid-template-areas:
+      "header  header"
+      "nav     nav"
+      "sidebar content"
+      "ad      footer";
+  }
+  nav ul {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+@media (min-width: 700px) {
+  .wrapper {
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-areas:
+      "header header  header"
+      "nav    content sidebar"
+      "nav    content ad"
+      "footer footer  footer";
+  }
+  nav ul {
+    flex-direction: column;
+  }
+}
+#fondecran {
+  /* Fixe l'image en haut à gauche de la page */
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* Préserve le ratio de l'image */
+  min-width: 100%;
+  min-height: 100%;
+}
 .carousel-item {
   height: 32rem;
   background-color: #777;
   color: white;
   position: relative;
 }
-
-.container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding-bottom: 50px;
-}
-
-h1 {
-  color: red;
-}
-
 .carousel-img {
   width: auto;
   height: auto;
 }
-
-body {
-  background-color: grey;
+.nav-item1 {
+  margin-left: 170mm;
 }

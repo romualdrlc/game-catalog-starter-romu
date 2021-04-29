@@ -23,7 +23,7 @@ export function makeApp(client: MongoClient): core.Express {
       "https://fewlines.connect.prod.fewlines.tech/.well-known/openid-configuration",
     clientID: `${process.env.CONNECT_CLIENT_ID}`,
     clientSecret: `${process.env.CONNECT_CLIENT_SECRET}`,
-    redirectURI: "http://localhost:3000/oauth/callback",
+    redirectURI: `${process.env.CONNECT_REDIRECT_URI}`,
     audience: "wdb2g3",
     scopes: ["openid", "email"],
   };
@@ -108,7 +108,7 @@ export function makeApp(client: MongoClient): core.Express {
         if (clientWantsJson(request)) {
           response.json(gamesForPlatform);
         } else {
-          response.render("platform-lug", { gamesForPlatform });
+          response.render("platform-slug", { gamesForPlatform });
         }
       });
   });
@@ -120,8 +120,8 @@ export function makeApp(client: MongoClient): core.Express {
       oauthClient
         .getTokensFromAuthorizationCode(`${request.query.code}`)
         .then((result) => {
-          oauthClient.verifyJWT(result.access_token, "RS256").then(() => {
-            console.log(result.access_token);
+          oauthClient.verifyJWT(result.access_token, "RS256").then((test) => {
+            console.log(test);
             if (request.session) {
               (request.session as any).accessToken = result.access_token;
             }
