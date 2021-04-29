@@ -84,3 +84,10 @@
 a {
   text-decoration: none;
 }
+
+.bloc-screen {
+  margin-left: 10px;
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+}
