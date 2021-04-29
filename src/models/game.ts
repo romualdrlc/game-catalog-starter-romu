@@ -12,6 +12,11 @@ export type Platform = {
   [key: string]: any;
 };
 
+export type Cart = {
+  name: string;
+  price: number;
+  [key: string]: any;
+};
 export class GameModel {
   private collection: Collection;
 
@@ -69,5 +74,22 @@ export class GameModel {
           cover: platform.platform_logo_url,
         }));
       });
+  }
+
+  async addCart(gameSlug: string, add: Cart): Promise<Game> {
+    const game = await this.collection.findOne({ slug: gameSlug });
+    if (!game) {
+      throw new Error("Game not found");
+    }
+    if (!game.cart) {
+      game.cart = [];
+    }
+    game.cart.push(add);
+    await this.collection.updateOne(
+      { _id: game._id },
+      { $set: { cart: game.cart } }
+    );
+    console.log();
+    return game;
   }
 }

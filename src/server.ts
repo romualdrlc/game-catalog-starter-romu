@@ -7,7 +7,7 @@ import MongoStore from "connect-mongo";
 import OAuth2Client, {
   OAuth2ClientConstructor,
 } from "@fewlines/connect-client";
-import { GameModel } from "./models/game";
+import { Game, GameModel } from "./models/game";
 
 const clientWantsJson = (request: express.Request): boolean =>
   request.get("accept") === "application/json";
@@ -90,6 +90,26 @@ export function makeApp(client: MongoClient): core.Express {
         response.render("game-slug", { game });
       }
     });
+  });
+
+  const formParser = express.urlencoded({ extended: true });
+
+  // const cart: Game[] = [];
+
+  app.post("/cart", formParser, (request, response) => {
+    console.log(request.body);
+    gameModel
+      .addCart(request.params.game_slug, {
+        name: request.body.name,
+        price: request.body.price,
+      })
+      .then((game) => {
+        response.render("cart", { game });
+      });
+  });
+
+  app.get("/cart", (request, response) => {
+    gameModel.getAll();
   });
 
   app.get("/platforms", (request, response) => {
