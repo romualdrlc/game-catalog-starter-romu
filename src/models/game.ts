@@ -82,13 +82,14 @@ export class GameModel {
       throw new Error("Game not found");
     }
     if (!game.cart) {
-      game.add = [];
+      game.cart = [];
     }
     game.cart.push(add);
     await this.collection.updateOne(
       { _id: game._id },
-      { $set: { cart: game.add } }
+      { $set: { cart: game.cart } }
     );
+    console.log();
     return game;
   }
 }

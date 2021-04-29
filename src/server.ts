@@ -78,7 +78,7 @@ export function makeApp(client: MongoClient): core.Express {
       }
     });
   });
-  const cart: any = [];
+
   app.get("/games/:game_slug", (request, response) => {
     gameModel.findBySlug(request.params.game_slug).then((game) => {
       if (!game) {
@@ -86,8 +86,6 @@ export function makeApp(client: MongoClient): core.Express {
       } else if (clientWantsJson(request)) {
         response.json(game);
       } else {
-        cart.push(game);
-
         response.render("game-slug", { game });
       }
     });
@@ -95,12 +93,22 @@ export function makeApp(client: MongoClient): core.Express {
 
   const formParser = express.urlencoded({ extended: true });
 
+  // const cart: Game[] = [];
+
   app.post("/cart", formParser, (request, response) => {
-    gameModel.addCart(request.params.game_slug, {
-      name: request.body.name,
-      price: request.body.price,
-    });
-    response.render("cart", { cart });
+    console.log(request.body);
+    gameModel
+      .addCart(request.params.game_slug, {
+        name: request.body.name,
+        price: request.body.price,
+      })
+      .then((game) => {
+        response.render("cart", { game });
+      });
+  });
+
+  app.get("/cart", (request, response) => {
+    gameModel.getAll();
   });
 
   app.get("/platforms", (request, response) => {
