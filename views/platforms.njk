@@ -1,30 +1,32 @@
-{% extends "layout.njk" %} {% block content %}
-<div
-  class="img-responsive"
-  style="
-    background-image: url('./assets/images/back.png');
-    height: 100vh;
-    width: 100wh;
-  "
->
-  <h1><p class="text-center">liste de platformes</p></h1>
 
-  <div class="container">
-    <div class="row row-cols-4">
-      {% for platform in platforms %}
-      <div class="card" style="width: 14rem">
-        <img src="{{ platform.cover }}" class="card-img-top" alt="..." />
-        <div class="card-body">
-          <!-- <h5 class="card-title">{{ game.name }}</h5> -->
-          <p class="card-text"></p>
-          <a href="/platforms/{{ platform.slug }}" class="btn btn-primary"
-            >{{ platform.name }}
-          </a>
-        </div>
+{% extends "layout.njk" %} {% block content %}
+<h1><p class="text-center">list platforms</p></h1>
+<div class="row row-cols-1 row-cols-md-4 g-4">
+  {% for platform in platforms %}
+  <div class="col">
+    <div class="card h-100">
+      <img
+        width="100px"
+        height="400px"
+        src="{{ platform.cover }}"
+        class="card-img-top"
+        alt="Responsive image"
+      />
+      <div class="card-body">
+        <h3 class="card-title">{{ game.name }}</h3>
       </div>
-      {% endfor %}
+      <div class="card-footer">
+        <div class="card text-center">
+          <button type="button" class="btn btn-info">
+            <a href="/platforms/{{ platform.slug }}">view all games for this {{ platform.name}}</a>
+          </button>
+        </div>
+        <!-- Le chiffre 1 correspond a l'incrementation du panier -->
+      </div>
     </div>
   </div>
+  {% endfor %}
 </div>
-
 {% endblock %}
+
+
