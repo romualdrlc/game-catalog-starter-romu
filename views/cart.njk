@@ -1,0 +1,8 @@
+{% extends "layout.njk" %} {% block content %} {% for game in cart %}
+
+<h1>
+  <p class="text-center">{{ game.name }}</p>
+</h1>
+<img src="{{ game.cover.url }}" alt="" />
+<p>{{ game.price }}</p>
+{% endfor %} {% endblock %}
