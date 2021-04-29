@@ -78,7 +78,7 @@ export function makeApp(client: MongoClient): core.Express {
       }
     });
   });
-  const cart: Game[] = [];
+  const cart: any = [];
   app.get("/games/:game_slug", (request, response) => {
     gameModel.findBySlug(request.params.game_slug).then((game) => {
       if (!game) {
@@ -88,13 +88,18 @@ export function makeApp(client: MongoClient): core.Express {
       } else {
         cart.push(game);
 
-        console.log(test);
         response.render("game-slug", { game });
       }
     });
   });
 
-  app.get("/cart", (request, response) => {
+  const formParser = express.urlencoded({ extended: true });
+
+  app.post("/cart", formParser, (request, response) => {
+    gameModel.addCart(request.params.game_slug, {
+      name: request.body.name,
+      price: request.body.price,
+    });
     response.render("cart", { cart });
   });
 
