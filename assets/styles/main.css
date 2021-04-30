@@ -73,9 +73,12 @@
   width: auto;
   height: auto;
 }
-.nav-item1 {
+/* .nav-item1 {
   margin-left: 170mm;
 }
+.nav-item {
+  margin-left: 170mm;
+} */
 
 .btn-info {
   text-align: center;
