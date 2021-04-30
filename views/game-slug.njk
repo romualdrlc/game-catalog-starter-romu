@@ -1,13 +1,19 @@
 {% extends "layout.njk" %} {% block content %}
-<div class="card mb-3" style="max-width: 100%;">
+<div class="card mb-3" style="max-width: 100%">
   <div class="row g-0">
     <div class="col-md-4">
-      <img class="summarygame" src="{{ game.cover.url }}" alt="Responsive image">
+      <img
+        class="summarygame"
+        src="{{ game.cover.url }}"
+        alt="Responsive image"
+      />
     </div>
     <div class="col-md-8">
       <div class="card-body">
         <h5 class="card-title">{{ game.name }}</h5>
-        <p class="card-text"><small class="text-muted">{{ game.price }} €</small></p>
+        <p class="card-text">
+          <small class="text-muted">{{ game.price / 100 }} €</small>
+        </p>
         <button class="button-atc" style="font-size: 24px">
           <i class="fa fa-shopping-cart">Add to cart</i>
         </button>
@@ -16,29 +22,20 @@
   </div>
 </div>
 
-
-  
-  
-
-  
-  
-
-  
-
-  
-
-
-
 <div>
   <p>{{ game.summary }}</p>
-
 </div>
 
 <div class="bloc-screen">
   {% for screen in game.screenshots %}
-  <p><img with="200px"  height="200px" src="{{ screen }}" alt="Responsive image"></p>
+  <p>
+    <img
+      with="200px"
+      height="200px"
+      src="{{ screen }}"
+      alt="Responsive image"
+    />
+  </p>
   {% endfor %}
 </div>
 {% endblock %}
-
-

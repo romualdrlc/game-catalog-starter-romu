@@ -86,7 +86,6 @@ export function makeApp(client: MongoClient): core.Express {
       } else if (clientWantsJson(request)) {
         response.json(game);
       } else {
-      
         response.render("game-slug", { game });
       }
     });
@@ -129,12 +128,10 @@ export function makeApp(client: MongoClient): core.Express {
         if (clientWantsJson(request)) {
           response.json(gamesForPlatform);
         } else {
-          const platform = request.params.platform_slug
-          .split("_")
-          .join(" ");
+          const platform = request.params.platform_slug.split("-").join(" ");
           const data = {
-            gamesForPlatform : gamesForPlatform,
-            platformName : platform,
+            gamesForPlatform: gamesForPlatform,
+            platformName: platform,
           };
           response.render("platform-slug", { data });
         }
