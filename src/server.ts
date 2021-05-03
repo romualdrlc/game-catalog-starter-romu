@@ -106,7 +106,9 @@ export function makeApp(client: MongoClient): core.Express {
   });
 
   app.get("/cart", (request, response) => {
-    gameModel.getAll();
+    gameModel.findBySlug(request.params.game_slug).then((games) => {
+      response.render("cart", { games });
+    });
   });
 
   app.get("/platforms", (request, response) => {
