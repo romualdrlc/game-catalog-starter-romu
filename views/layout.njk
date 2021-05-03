@@ -27,15 +27,6 @@
         list-style: none;
       }
     </style>
-    <script>
-      function login() {
-        if (loggedIn) {
-          getElementById("test").value= "login ok";
-        } else {
-          getElementById("test").value= "logout";
-        }
-      }
-    </script>
     {% block css %}{% endblock %}
   </head>
   <body>
@@ -57,7 +48,11 @@
               <a class="nav-link" href="/platforms">Explore platforms</a>
             </li>
           </ul>
-          <a href="{{ connectLoginURL }}"> <input class="btn btn-primary" id="test" type="button" value="login" onClick="document.getElementById('test').click()">  </a>
+          {% if loggedIn %}
+          <a href="{{ connectLoginURL }}"> <input class="btn btn-primary" id="test" type="button" value="Connected">  </a>
+          {% else %}
+          <a href="{{ connectLoginURL }}"> <input class="btn btn-primary" id="test" type="button" value="Disconnected">  </a>
+          {% endif %}
           <a href="/logout" class="btn btn-primary" role="button" aria-pressed="true">Sign Out</a>
         </div>
       </div>
