@@ -1,6 +1,9 @@
 {% extends "layout.njk" %} {% block content %}
-<h2>Username:</h2>
-<p>{{ game.name }}</p>
-<h2>Comments:</h2>
-<p>{{ game.price }}</p>
+<h1>affichage test</h1>
+
+{{ games.name }}
+{{ games.price }}
+{{ games._id }}
+{{ games.cover.url }}
+
 {% endblock %}
