@@ -15,7 +15,10 @@
           <small class="text-muted">{{ game.price / 100 }} €</small>
         </p>
         <button class="button-atc" style="font-size: 24px">
-          <i class="fa fa-shopping-cart"><a href="/cart"> Add to cart</a></i>
+          <i class="fa fa-shopping-cart">
+            <form action="/cart" method="POST">
+            <a href="/cart"> Add to cart</a></i>
+          </form>
         </button>
       </div>
     </div>

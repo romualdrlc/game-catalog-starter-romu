@@ -8,6 +8,7 @@ import OAuth2Client, {
   OAuth2ClientConstructor,
 } from "@fewlines/connect-client";
 import { Game, GameModel } from "./models/game";
+import { CartModel } from "./models/cart";
 
 const clientWantsJson = (request: express.Request): boolean =>
   request.get("accept") === "application/json";
@@ -17,6 +18,7 @@ export function makeApp(client: MongoClient): core.Express {
   const db = client.db();
 
   const gameModel = new GameModel(db.collection("games"));
+  const gameCart = new CartModel(db.collection("cart"));
 
   const oauthClientConstructorProps: OAuth2ClientConstructor = {
     openIDConfigurationURL:
@@ -95,7 +97,7 @@ export function makeApp(client: MongoClient): core.Express {
 
   app.post("/cart", formParser, (request, response) => {
     console.log(request.body);
-    gameModel
+    gameCart
       .addCart(request.params.game_slug, {
         name: request.body.name,
         price: request.body.price,
@@ -106,9 +108,7 @@ export function makeApp(client: MongoClient): core.Express {
   });
 
   app.get("/cart", (request, response) => {
-    gameModel.findBySlug(request.params.game_slug).then((games) => {
-      response.render("cart", { games });
-    });
+    response.render("cart");
   });
 
   app.get("/platforms", (request, response) => {
