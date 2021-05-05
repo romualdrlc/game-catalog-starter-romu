@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { request, Request, response, Response } from "express";
 import * as core from "express-serve-static-core";
 import { MongoClient } from "mongodb";
 import nunjucks from "nunjucks";
@@ -97,14 +97,10 @@ export function makeApp(client: MongoClient): core.Express {
 
   app.post("/cart", formParser, (request, response) => {
     console.log(request.body);
-    gameCart
-      .addCart(request.params.game_slug, {
-        name: request.body.name,
-        price: request.body.price,
-      })
-      .then((game) => {
-        response.render("cart", { game });
-      });
+    console.log({
+      name: request.body.name,
+      price: request.body.price,
+    });
   });
 
   app.get("/cart", (request, response) => {

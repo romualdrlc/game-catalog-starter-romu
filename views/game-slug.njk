@@ -16,9 +16,16 @@
         </p>
         <button class="button-atc" style="font-size: 24px">
           <i class="fa fa-shopping-cart">
-            <form action="/cart" method="POST">
-            <a href="/cart"> Add to cart</a></i>
-          </form>
+            <form method="post" action="/cart">
+              <button
+                name="{{ game.price }}"
+                value="{{ game.name }}"
+                type="submit"
+              >
+                add to cart
+              </button>
+            </form>
+          </i>
         </button>
       </div>
     </div>
