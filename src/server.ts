@@ -96,11 +96,9 @@ export function makeApp(client: MongoClient): core.Express {
   const formParser = express.urlencoded({ extended: true });
 
   app.post("/cart", formParser, (request, response) => {
-    console.log(request.body);
-    console.log({
-      name: request.body.name,
-      price: request.body.price,
-    });
+    gameCart.addCart(request.body.game);
+    // console.log(game);
+    // response.render("cart", { game });
   });
 
   app.get("/cart", (request, response) => {

@@ -13,8 +13,14 @@ export class CartModel {
     this.collection = collection;
   }
 
-  async addCart(gameSlug: string): Promise<string> {
-    console.log(gameSlug);
-    return gameSlug;
+  async addCart(gameSlug: Cart): Promise<Cart> {
+    const game = {
+      name: gameSlug.name,
+      price: gameSlug.body.price,
+      iduser: gameSlug.body.idUser,
+      cover: gameSlug.body.cover_url,
+    };
+    console.log(game);
+    return game;
   }
 }
