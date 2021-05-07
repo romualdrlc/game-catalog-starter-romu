@@ -1,9 +1,8 @@
 import { Collection } from "mongodb";
 
 export type Cart = {
-  name: string;
-  price: number;
-  [key: string]: any;
+  games: [];
+  session: string;
 };
 
 export class CartModel {
@@ -12,15 +11,16 @@ export class CartModel {
   constructor(collection: Collection) {
     this.collection = collection;
   }
-
-  async addCart(gameSlug: Cart): Promise<Cart> {
-    const game = {
-      name: gameSlug.name,
-      price: gameSlug.body.price,
-      iduser: gameSlug.body.idUser,
-      cover: gameSlug.body.cover_url,
-    };
-    console.log(game);
-    return game;
+  findBySlug(slug: string): Promise<Cart | null> {
+    return this.collection.findOne({
+      slug: slug,
+    });
   }
+  // foncion qui recupere id du gars connecter
+
+  // focniton qui recupere le jeu
+  // verifie si l'id en cours a deja le jeu
+  // si il a le jeu alors on incremente le nombre d'articles
+  // sinon on ajoute le jeu
+  // si il n'y a pas d'id on cree un nouveau panier
 }
