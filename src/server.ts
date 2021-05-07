@@ -95,14 +95,16 @@ export function makeApp(client: MongoClient): core.Express {
 
   const formParser = express.urlencoded({ extended: true });
 
-  app.post("/cart", formParser, (request, response) => {
-    gameCart.addCart(request.body.game);
-    // console.log(game);
-    // response.render("cart", { game });
+  app.post("/cart", formParser, sessionParser, (request, response) => {
+    console.log(request.session.id);
+    // appeler la fonciotn qui recupere id connecter
+    // appeler la fonction qui va ajouter l'id et le jeu dans le panier
   });
 
   app.get("/cart", (request, response) => {
-    response.render("cart");
+    gameModel
+      .findBySlug(request.body.slug)
+      .then((game) => response.render("cart", { game }));
   });
 
   app.get("/platforms", (request, response) => {

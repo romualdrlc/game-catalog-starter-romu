@@ -17,10 +17,7 @@
         <button class="button-atc" style="font-size: 24px">
           <i class="fa fa-shopping-cart">
             <form method="post" action="/cart">
-              <button name="formgame" value="{{ game }}" type="submit">
-                <script>
-                  alert("{{ game.price }}");
-                </script>
+              <button name="formgame" value="{{ game.name }}" type="submit">
                 add to cart
               </button>
             </form>
